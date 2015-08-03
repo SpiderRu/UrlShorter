@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">  
+  <head>
+    <script type="text/javascript">
+	function getXmlHttp() {
+	    var xmlhttp;
+    
+	    try {
+		xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+	    } catch (e) {
+		try {
+		    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (E) {
+		    xmlhttp = false;
+		}
+	    }
+	    if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+		xmlhttp = new XMLHttpRequest();
+	    }
+	return xmlhttp;
+    }
+    
+    function send() {
+	var req = getXmlHttp() 
+	var converted = document.getElementById('shortUrl');
+
+	req.onreadystatechange = function() { 
+            if (req.readyState == 4) {
+        	
+        	if(req.status == 201) {
+        	    converted.href = req.responseText;
+        	    converted.innerHTML = converted.href;
+        	    requestStatus.innerHTML = 'Done.';
+        	}
+        	else {
+        	    converted.href = '';
+        	    converted.innerHTML = '';
+        	    requestStatus.innerHTML = req.statusText;
+        	}
+    	    }
+	}
+
+	req.open('POST', '/create', true); 
+	req.send(inputUrl.value);
+	requestStatus.innerHTML = 'Sending request...';
+    }
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>URL shorter service</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div style="width: 50%; margin: auto; padding-top: 50px;" class="bs-example">
+    <form>
+        <div class="form-group">
+            <label for="inputUrl">URL</label>
+            <input class="form-control" id="inputUrl">
+        </div>
+        <div class="form-group">
+            <label for="shortUrl">Short URL</label>
+            <a href="" class="form-control" id="shortUrl"></a>
+        </div>
+        <div class="form-group" id="requestStatus">&nbsp;</div>
+        <button type="button" class="btn btn-primary" onclick="send();">Submit</button>
+    </form>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
