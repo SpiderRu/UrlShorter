@@ -63,7 +63,7 @@
   </head>
   <body>
     <div style="width: 50%; margin: auto; padding-top: 50px;" class="bs-example">
-    <form>
+    <form onkeypress="if (event.keyCode == 13) { send(); return false; }">
         <div class="form-group">
             <label for="inputUrl">URL</label>
             <input class="form-control" id="inputUrl">
